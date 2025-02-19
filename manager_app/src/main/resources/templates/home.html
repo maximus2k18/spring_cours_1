@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Test page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+<form method="get" data-th-action="@{/home}">
+    <div th:object="${products}">
+        <p>Title: <span  th:text="${products[1].title}"> </span> </p>
+
+<!--
+        <ul th:each="product : ${products}">
+            <li th:text="${product}"></li>
+        </ul>-->
+
+        <tr>
+            <td>
+                <th:block th:each="product, iterStat : ${products}">
+                    <span th:text="${product.title}" ,></span>
+
+                </th:block>
+            </td>
+        </tr>
+
+
+        <p th:text = "#{catalog.errors.product.not_found}"></p>
+    </div>
+</form>
+
+</body>
+</html>
