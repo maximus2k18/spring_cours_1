@@ -1,0 +1,49 @@
+services:
+  catalog-db-new:
+    image: postgres:16
+    container_name: catalog-db-new
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: catalog
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  service_client:
+    build: ./service-client
+    container_name: service-client
+    ports:
+      - "8081:8081"
+    depends_on:
+      - catalog-db-new
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/catalog
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345
+    networks:
+      - app-network
+
+#  manager_app:
+#    build: ./manager-app  # Путь к каталогу manager_app, где лежит Dockerfile
+#    container_name: manager-app
+#    ports:
+#      - "8080:8080"  # Открываем порт 8080
+#    depends_on:
+#      - catalog-db-new  # Зависимость от базы данных
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/catalog #jdbc:postgresql://catalog-db-new:5432/catalog
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: 12345
+#    networks:
+#      - app-network
+
+volumes:
+  pgdata:
+
+networks:
+  app-network:
+    driver: bridge

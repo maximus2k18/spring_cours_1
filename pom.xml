@@ -12,28 +12,21 @@
 	<groupId>com.ugolok</groupId>
 	<artifactId>spring_cours_24</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>spring_cours_24</name>
 	<description>Demo project for Spring Boot</description>
 
 
 	<modules>
-		<module>manager_app</module>
+		<module>manager-app</module>
+		<module>service-client</module>
 	</modules>
 
 	<properties>
 		<java.version>21</java.version>
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+
 
 	<build>
 		<plugins>
