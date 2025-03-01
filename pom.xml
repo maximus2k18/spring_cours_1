@@ -18,8 +18,8 @@
 
 
 	<modules>
-		<module>manager-app</module>
-		<module>service-client</module>
+		<module>managerApp</module>
+		<module>serviceClient</module>
 	</modules>
 
 	<properties>

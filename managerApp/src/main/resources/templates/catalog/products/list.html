@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добро подаловать &ndash; Сельмаг</title>
+</head>
+<body>
+<a data-th-href="@{/catalog/products/create}">+ Создать товар</a>
+
+<h1>Список товаров</h1>
+<form data-th-action="@{/catalog/products/list}" method="get">
+    <label>Фильтр: <input type="text" name="filter" data-th-value="${filter}">
+        <button type="submit">Поиск</button>
+    </label>
+</form>
+
+<form data-th-action="@{/catalog/products/list}" method="get">
+    <label>Фильтр 2: <input type="text" name="filter2" data-th-value="${filter2}">
+        <button type="submit">Поиск</button>
+    </label>
+</form>
+
+<h2>Фильтрация по Title</h2>
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Товары</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr data-th-each="product: ${productsByTitle}">
+        <td data-th-text="${product.id}"></td>
+        <td>
+            <a data-th-href="@{/catalog/products/{productId}(productId=${product.id})}"
+            data-th-text="${product.title}">
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Фильтрация по details</h2>
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Товары</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr data-th-each="product: ${productsByDetails}">
+        <td data-th-text="${product.id}"></td>
+        <td>
+            <a data-th-href="@{/catalog/products/{productId}(productId=${product.id})}"
+               data-th-text="${product.title}">
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

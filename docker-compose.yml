@@ -14,7 +14,7 @@ services:
       - app-network
 
   service_client:
-    build: ./service-client
+    build: ./serviceClient
     container_name: service-client
     ports:
       - "8081:8081"
@@ -24,6 +24,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/catalog
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 12345
+
+      SPRING_PROFILES_ACTIVE: docker # потом может убрать и проверить
     networks:
       - app-network
 
