@@ -3,6 +3,7 @@ package com.ugolok.service_client.service;
 
 import com.ugolok.service_client.entity.Product;
 import com.ugolok.service_client.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +17,36 @@ public class DefaultProductService implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public Iterable<Product> findAllProducts() {
-        return this.productRepository.findAll();
+    public Iterable<Product> findByDetailsIgnoreCase(String details) {
+        if (details != null && !details.isBlank()) {
+            return this.productRepository.findByDetailsIgnoreCase(details);
+        } else {
+            return this.productRepository.findAll();
+        }
     }
 
     @Override
+    public Iterable<Product> findByTitleIgnoreCase(String details) {
+        if (details != null && !details.isBlank()) {
+            return this.productRepository.findByTitleIgnoreCase(details);
+        } else {
+            return this.productRepository.findAll();
+        }
+    }
+
+    @Override
+    public Iterable<Product> findAllProducts(String filter) {
+        if (filter != null && !filter.isBlank()) {
+            return this.productRepository.findAllByTitleLikeIgnoreCase("%" + filter + "%");
+        } else {
+            return this.productRepository.findAll();
+        }
+    }
+
+    @Override
+    @Transactional
     public Product createProduct(String title, String details) {
-        return this.productRepository.save(new Product(null, title,  details));
+        return this.productRepository.save(new Product(null, title, details));
     }
 
     @Override
@@ -31,21 +55,26 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
+    @Transactional
     public void updateProduct(long id, String title, String details) {
         this.productRepository.findById(id)
                 .ifPresentOrElse(product -> {
                     product.setTitle(title);
                     product.setDetails(details);
-                    this.productRepository.save(product);
-                        }, () -> {
-                            throw new NoSuchElementException();
-                        }
-                );
+                }, () -> {
+                    throw new NoSuchElementException();
+                });
     }
 
     @Override
+    @Transactional
     public void deleteProduct(long id) {
         this.productRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Product> findByDetails(String filter) {
+        return null;
     }
 
 }

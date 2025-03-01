@@ -12,20 +12,32 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
 import java.util.Map;
 
-@RequestMapping("catalog-api/products")
+@RequestMapping("/catalog-api/products")
 @RequiredArgsConstructor
 @RestController
 public class ProductsRestController {
 
     private final ProductService productService;
 
+
+
     @GetMapping
-    public Iterable<Product> getAllProduct() {
-        return this.productService.findAllProducts();
+    public Iterable<Product> findProducts(@RequestParam(name = "filter", required = false) String details) {
+        return this.productService.findAllProducts(details);
     }
+
+    @GetMapping("by-details")
+    public Iterable<Product> findProductsByDetailsIgnoreCase(@RequestParam  String filter) {
+        return this.productService.findByDetailsIgnoreCase(filter);
+    }
+
+    @GetMapping("by-title")
+    public Iterable<Product> findProductsByTitleIgnoreCase(@RequestParam  String filter) {
+        return this.productService.findByTitleIgnoreCase(filter);
+    }
+
 
     @PostMapping
     public ResponseEntity<?> createProduct(@Valid @RequestBody ProductForm payload,

@@ -2,12 +2,15 @@ package com.ugolok.service_client.service;
 
 import com.ugolok.service_client.entity.Product;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
 
-    Iterable<Product> findAllProducts();
+    Iterable<Product> findAllProducts(String filter);
+
+    Iterable<Product> findByDetailsIgnoreCase(String details);
+
+    Iterable<Product> findByTitleIgnoreCase(String details);
 
     Product createProduct(String title, String details);
 
@@ -16,4 +19,9 @@ public interface ProductService {
     void updateProduct(long id, String title, String details);
 
     void deleteProduct(long id);
+
+    Iterable<Product> findByDetails(String filter);
+
+
+
 }
